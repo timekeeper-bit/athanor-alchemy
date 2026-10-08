@@ -19,6 +19,8 @@ jobs:
           distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: probe api
+        run: ./gradlew probeApi -q
       - name: build and run game tests
         run: ./gradlew build
       - name: capture build artifacts
