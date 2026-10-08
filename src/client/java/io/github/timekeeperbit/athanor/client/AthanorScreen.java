@@ -83,7 +83,7 @@ public class AthanorScreen extends AbstractContainerScreen<AthanorMenu> {
 			if (isHovering(BAR_X + aspect.ordinal() * BAR_STEP - 1, BAR_Y - 1, BAR_W + 2, BAR_H + 2, mouseX, mouseY)) {
 				List<Component> lines = new ArrayList<>();
 				lines.add(Component.translatable("gui.athanor.pool", aspect.displayName(), menu.pool(aspect), AthanorCoreBlockEntity.POOL_CAPACITY)
-						.withColor(aspect.getColor() & 0xFFFFFF));
+						.withStyle(style -> style.withColor(aspect.getColor() & 0xFFFFFF)));
 				int need = recipe == null ? 0 : recipe.cost().get(aspect);
 				if (need > 0) {
 					lines.add(Component.translatable("gui.athanor.need", need)

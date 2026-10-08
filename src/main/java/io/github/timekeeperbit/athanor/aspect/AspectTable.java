@@ -109,7 +109,6 @@ public final class AspectTable {
 		tag(ItemTags.PLANKS, "V1");
 		tag(ItemTags.SAPLINGS, "V2");
 		tag(ItemTags.LEAVES, "V1");
-		tag(ItemTags.FLOWERS, "V1");
 		tag(ItemTags.WOOL, "V1 E1");
 	}
 

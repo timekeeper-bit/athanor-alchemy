@@ -21,10 +21,8 @@ public final class ModBlocks {
 			BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(2.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS).requiresCorrectToolForDrops());
 	public static final Block ALCHEMICAL_GLASS = register("alchemical_glass", TransparentBlock::new,
 			BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.GLASS).noOcclusion()
-					.isValidSpawn((state, level, pos, type) -> false)
 					.isRedstoneConductor((state, level, pos) -> false)
-					.isSuffocating((state, level, pos) -> false)
-					.isViewBlocking((state, level, pos) -> false));
+					.isSuffocating((state, level, pos) -> false));
 	public static final Block RESOLVER = register("resolver", ResolverBlock::new,
 			BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(3.5F).sound(SoundType.METAL).requiresCorrectToolForDrops());
 	public static final Block ATHANOR_CORE = register("athanor_core", AthanorCoreBlock::new,

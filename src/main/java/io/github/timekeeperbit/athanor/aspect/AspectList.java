@@ -42,7 +42,7 @@ public final class AspectList {
 			if (!first) {
 				line.append("  ");
 			}
-			line.append(aspect.displayName().withColor(aspect.getColor() & 0xFFFFFF)).append(" " + amount);
+			line.append(aspect.displayName().withStyle(style -> style.withColor(aspect.getColor() & 0xFFFFFF))).append(" " + amount);
 			first = false;
 		}
 		return line;

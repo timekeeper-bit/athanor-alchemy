@@ -41,10 +41,10 @@ public class AthanorCoreBlockEntity extends BlockEntity implements WorldlyContai
 	public static final int POOL_CAPACITY = 512;
 	public static final int CHECK_INTERVAL = 20;
 	/** Synced data: 0-7 pool, 8 progress, 9 total ticks, 10 formed. */
-	public static final int DATA_PROGRESS = Aspect.COUNT;
-	public static final int DATA_TOTAL = Aspect.COUNT + 1;
-	public static final int DATA_FORMED = Aspect.COUNT + 2;
-	public static final int DATA_COUNT = Aspect.COUNT + 3;
+	public static final int DATA_PROGRESS = 8;
+	public static final int DATA_TOTAL = 9;
+	public static final int DATA_FORMED = 10;
+	public static final int DATA_COUNT = 11;
 
 	private final NonNullList<ItemStack> items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
 	private final int[] pool = new int[Aspect.COUNT];
