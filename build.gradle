@@ -64,8 +64,9 @@ fabricApi {
 
 // Temporary: prints selected Minecraft signatures to the CI log.
 tasks.register('probeApi') {
+	def cpc = project.sourceSets.main.compileClasspath
 	doLast {
-		def cp = sourceSets.main.compileClasspath.files
+		def cp = cpc.files
 		def jars = cp.findAll { it.name.contains('minecraft') }
 		println "PROBE jars ${jars*.name}"
 		def javap = "${System.getProperty('java.home')}/bin/javap"
