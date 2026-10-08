@@ -34,11 +34,8 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.Rarity;
 
@@ -127,11 +124,14 @@ public final class ModItems {
 			new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).component(DataComponents.WRITTEN_BOOK_CONTENT, EmeraldTabletItem.content()));
 	public static final Item ARCANIUM_PICKAXE = register("arcanium_pickaxe", Item::new,
 			new Item.Properties().pickaxe(ArcaniumTools.MATERIAL, 1.0F, -2.8F));
-	public static final Item ARCANIUM_AXE = register("arcanium_axe", p -> new AxeItem(ArcaniumTools.MATERIAL, 5.5F, -3.0F, p), new Item.Properties());
-	public static final Item ARCANIUM_SHOVEL = register("arcanium_shovel", p -> new ShovelItem(ArcaniumTools.MATERIAL, 1.5F, -3.0F, p), new Item.Properties());
+	public static final Item ARCANIUM_AXE = register("arcanium_axe", Item::new,
+			new Item.Properties().axe(ArcaniumTools.MATERIAL, 5.5F, -3.0F));
+	public static final Item ARCANIUM_SHOVEL = register("arcanium_shovel", Item::new,
+			new Item.Properties().shovel(ArcaniumTools.MATERIAL, 1.5F, -3.0F));
 	public static final Item ARCANIUM_SWORD = register("arcanium_sword", Item::new,
 			new Item.Properties().sword(ArcaniumTools.MATERIAL, 3.0F, -2.4F));
-	public static final Item ARCANIUM_HOE = register("arcanium_hoe", p -> new HoeItem(ArcaniumTools.MATERIAL, -3.0F, 0.0F, p), new Item.Properties());
+	public static final Item ARCANIUM_HOE = register("arcanium_hoe", Item::new,
+			new Item.Properties().hoe(ArcaniumTools.MATERIAL, -3.0F, 0.0F));
 	public static final Set<Item> ARCANIUM_TOOLS = Set.of(ARCANIUM_PICKAXE, ARCANIUM_AXE, ARCANIUM_SHOVEL, ARCANIUM_SWORD, ARCANIUM_HOE);
 
 	private static Item.Properties drink() {
