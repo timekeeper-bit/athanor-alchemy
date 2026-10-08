@@ -1,0 +1,16 @@
+# Temporary: prints class signatures from the 26.3 game jar for development. Removed before merge.
+name: probe
+on:
+  push:
+    paths: ['tools/probe.sh', '.github/workflows/probe.yml']
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - run: chmod +x ./gradlew && ./gradlew classes -q
+      - run: bash tools/probe.sh
