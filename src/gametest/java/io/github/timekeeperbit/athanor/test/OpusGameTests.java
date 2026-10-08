@@ -240,7 +240,7 @@ public class OpusGameTests {
 		Player player = playerAt(helper, new BlockPos(1, 1, 1));
 		ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
 		pickaxe.setDamageValue(10);
-		player.getInventory().add(pickaxe);
+		player.getInventory().setItem(0, pickaxe);
 		player.giveExperiencePoints(5);
 		helper.assertValueEqual(OuroborosRingItem.mend(player), 1, "one item mended");
 		helper.assertValueEqual(pickaxe.getDamageValue(), 9, "one point mended");
@@ -254,7 +254,7 @@ public class OpusGameTests {
 		Player player = playerAt(helper, new BlockPos(1, 1, 1));
 		ItemStack pickaxe = new ItemStack(ModItems.ARCANIUM_PICKAXE);
 		pickaxe.setDamageValue(100);
-		player.getInventory().add(pickaxe);
+		player.getInventory().setItem(0, pickaxe);
 		helper.assertValueEqual(ArcaniumTools.selfRepair(helper.getLevel(), player), 1, "one tool mended");
 		helper.assertValueEqual(pickaxe.getDamageValue(), 100 - ArcaniumTools.MEND, "mended amount");
 		helper.assertValueEqual(pickaxe.getMaxDamage(), ArcaniumTools.MATERIAL.durability(), "durability");
