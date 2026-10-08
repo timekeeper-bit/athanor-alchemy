@@ -61,36 +61,3 @@ fabricApi {
 		eula = true
 	}
 }
-
-// Temporary: prints selected Minecraft signatures to the CI log.
-tasks.register('probeApi') {
-	def cpc = project.sourceSets.main.compileClasspath
-	doLast {
-		def cp = cpc.files
-		def jars = cp.findAll { it.name.contains('minecraft') }
-		println "PROBE jars ${jars*.name}"
-		def javap = "${System.getProperty('java.home')}/bin/javap"
-		def path = jars*.path.join(File.pathSeparator)
-		def classes = ['net.minecraft.world.level.Level', 'net.minecraft.server.level.ServerLevel',
-			'net.minecraft.world.item.Item$Properties', 'net.minecraft.world.item.ToolMaterial',
-			'net.minecraft.world.effect.MobEffect', 'net.minecraft.world.item.component.WrittenBookContent',
-			'net.minecraft.server.network.Filterable', 'net.minecraft.world.entity.player.Player',
-			'net.minecraft.world.item.ItemCooldowns', 'net.minecraft.world.item.Item',
-			'net.minecraft.world.item.component.Consumables', 'net.minecraft.world.entity.Entity',
-			'net.minecraft.world.level.LevelReader', 'net.minecraft.world.level.LevelAccessor',
-			'net.minecraft.world.item.component.CustomData', 'net.minecraft.nbt.CompoundTag',
-			'net.minecraft.world.level.levelgen.placement.PlacedFeature', 'net.minecraft.core.registries.Registries',
-			'net.minecraft.world.entity.LivingEntity', 'net.minecraft.world.level.block.Block',
-			'net.minecraft.world.level.block.state.BlockBehaviour', 'net.minecraft.world.item.ItemStack',
-			'net.minecraft.world.level.block.DropExperienceBlock', 'net.minecraft.util.valueproviders.UniformInt',
-			'net.minecraft.world.item.AxeItem', 'net.minecraft.world.item.HoeItem', 'net.minecraft.world.item.ShovelItem',
-			'net.minecraft.gametest.framework.GameTestHelper', 'net.minecraft.world.level.BlockAndTintGetter', 'net.minecraft.core.RegistryAccess']
-		def proc = ([javap, '-public', '-cp', path] + classes).execute()
-		def out = new StringBuilder()
-		proc.consumeProcessOutput(out, out)
-		proc.waitFor()
-		out.toString().eachLine { println "PROBE $it" }
-		def names = new java.util.zip.ZipFile(jars.find { it.name.contains('merged') || it.name.contains('common') } ?: jars[0]).entries().collect { it.name }
-		names.findAll { it ==~ /(?i).*(moon|clock|timeline|environmentattrib).*\.class/ && !it.contains('$') }.each { println "PROBE class $it" }
-	}
-}
