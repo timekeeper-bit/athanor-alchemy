@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "athanor",
+	"version": "${version}",
+	"name": "Athanor Alchemy",
+	"description": "Break items down into eight aspects and recombine them in a multiblock Athanor. Includes an ore magnet and an item magnet.",
+	"authors": [
+		"timekeeper-bit"
+	],
+	"contact": {
+		"sources": "https://github.com/timekeeper-bit/athanor-alchemy",
+		"issues": "https://github.com/timekeeper-bit/athanor-alchemy/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/athanor/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.timekeeperbit.athanor.Athanor"
+		],
+		"client": [
+			"io.github.timekeeperbit.athanor.client.AthanorClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

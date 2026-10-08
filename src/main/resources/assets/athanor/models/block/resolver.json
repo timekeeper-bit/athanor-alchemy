@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "athanor:block/resolver_top",
+    "side": "athanor:block/resolver_side",
+    "bottom": "athanor:block/resolver_bottom"
+  }
+}

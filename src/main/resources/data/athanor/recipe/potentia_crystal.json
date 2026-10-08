@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "athanor:ignis_crystal",
+    "athanor:ordo_crystal"
+  ],
+  "result": {
+    "id": "athanor:potentia_crystal",
+    "count": 1
+  }
+}

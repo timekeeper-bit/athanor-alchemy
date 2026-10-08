@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " G ",
+    " B ",
+    "BBB"
+  ],
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "B": "athanor:athanor_bricks"
+  },
+  "result": {
+    "id": "athanor:arcane_pedestal",
+    "count": 2
+  }
+}

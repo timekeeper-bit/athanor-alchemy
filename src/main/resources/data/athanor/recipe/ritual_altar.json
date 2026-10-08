@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "AGA",
+    "BDB",
+    "BBB"
+  ],
+  "key": {
+    "A": "minecraft:amethyst_shard",
+    "G": "minecraft:gold_ingot",
+    "D": "minecraft:diamond",
+    "B": "athanor:athanor_bricks"
+  },
+  "result": {
+    "id": "athanor:ritual_altar",
+    "count": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "BGB",
+    "BFB",
+    "BBB"
+  ],
+  "key": {
+    "B": "athanor:athanor_bricks",
+    "G": "minecraft:gold_ingot",
+    "F": "minecraft:blast_furnace"
+  },
+  "result": {
+    "id": "athanor:athanor_core",
+    "count": 1
+  }
+}

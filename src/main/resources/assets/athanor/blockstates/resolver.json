@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "athanor:block/resolver"
+    }
+  }
+}

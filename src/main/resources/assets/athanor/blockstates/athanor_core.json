@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,formed=false": {
+      "model": "athanor:block/athanor_core"
+    },
+    "facing=north,formed=true": {
+      "model": "athanor:block/athanor_core_formed"
+    },
+    "facing=east,formed=false": {
+      "model": "athanor:block/athanor_core",
+      "y": 90
+    },
+    "facing=east,formed=true": {
+      "model": "athanor:block/athanor_core_formed",
+      "y": 90
+    },
+    "facing=south,formed=false": {
+      "model": "athanor:block/athanor_core",
+      "y": 180
+    },
+    "facing=south,formed=true": {
+      "model": "athanor:block/athanor_core_formed",
+      "y": 180
+    },
+    "facing=west,formed=false": {
+      "model": "athanor:block/athanor_core",
+      "y": 270
+    },
+    "facing=west,formed=true": {
+      "model": "athanor:block/athanor_core_formed",
+      "y": 270
+    }
+  }
+}

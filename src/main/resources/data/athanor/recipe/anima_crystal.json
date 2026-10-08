@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "athanor:vita_crystal",
+    "athanor:aer_crystal"
+  ],
+  "result": {
+    "id": "athanor:anima_crystal",
+    "count": 1
+  }
+}
