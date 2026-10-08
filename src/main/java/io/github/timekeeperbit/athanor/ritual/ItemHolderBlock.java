@@ -1,6 +1,7 @@
 package io.github.timekeeperbit.athanor.ritual;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -40,8 +41,9 @@ public abstract class ItemHolderBlock extends BaseEntityBlock {
 		}
 		if (!level.isClientSide()) {
 			ItemStack taken = holder.takeStack();
-			if (!player.getInventory().add(taken)) {
-				player.drop(taken, false);
+			player.getInventory().add(taken);
+			if (!taken.isEmpty()) {
+				Containers.dropItemStack(level, player.getX(), player.getY(), player.getZ(), taken);
 			}
 		}
 		return InteractionResult.SUCCESS;
