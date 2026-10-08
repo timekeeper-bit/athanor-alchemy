@@ -254,6 +254,341 @@ def icon(rng):
     return small.resize((128, 128), Image.NEAREST)
 
 
+# ---- Magnum Opus expansion ----
+
+def stone_base(rng, deep=False):
+    img = new()
+    base = (70, 70, 78) if deep else (125, 125, 125)
+    for y in range(16):
+        for x in range(16):
+            f = rng.uniform(0.82, 1.12)
+            if deep and y % 4 == 0:
+                f *= 0.85
+            img.putpixel((x, y), shade(base, f))
+    return img
+
+
+def ore(rng, color, deep=False, clusters=5):
+    img = stone_base(rng, deep)
+    for _ in range(clusters):
+        cx, cy = rng.randrange(2, 14), rng.randrange(2, 14)
+        for dx, dy in ((0, 0), (1, 0), (0, 1), (1, 1), (-1, 0)):
+            if rng.random() < 0.85:
+                x, y = max(0, min(15, cx + dx)), max(0, min(15, cy + dy))
+                img.putpixel((x, y), shade(color, rng.uniform(0.75, 1.25)))
+    return img
+
+
+def rock_salt(rng):
+    img = new()
+    for y in range(16):
+        for x in range(16):
+            img.putpixel((x, y), shade((232, 196, 196), rng.uniform(0.85, 1.08)))
+    for _ in range(10):
+        x, y = rng.randrange(16), rng.randrange(16)
+        img.putpixel((x, y), (255, 245, 245, 255))
+    for i in range(16):
+        img.putpixel((i, (i * 7) % 16), shade((200, 150, 150), 0.95))
+    return img
+
+
+def metal_block(rng, color):
+    img = new()
+    for y in range(16):
+        for x in range(16):
+            img.putpixel((x, y), shade(color, rng.uniform(0.92, 1.05)))
+    for i in range(16):
+        img.putpixel((i, 0), shade(color, 1.3))
+        img.putpixel((0, i), shade(color, 1.3))
+        img.putpixel((i, 15), shade(color, 0.7))
+        img.putpixel((15, i), shade(color, 0.7))
+    return img
+
+
+def alembic(rng, face):
+    img = new()
+    copper = (190, 110, 70)
+    if face == "side":
+        for y in range(16):
+            for x in range(16):
+                img.putpixel((x, y), shade((60, 50, 50), rng.uniform(0.9, 1.1)))
+        for y in range(2, 14):
+            for x in range(4, 12):
+                d = ((x - 7.5) / 4) ** 2 + ((y - 9) / 5) ** 2
+                if d < 1:
+                    img.putpixel((x, y), shade((150, 210, 230), 0.8 + 0.3 * (1 - d)))
+        for y in range(1, 5):
+            for x in (7, 8):
+                img.putpixel((x, y), shade(copper, 1.1))
+        for x in range(8, 15):
+            img.putpixel((x, 2 + (x - 8) // 3), shade(copper, 1.0))
+        for x in range(16):
+            img.putpixel((x, 15), shade(copper, 0.8))
+    elif face == "top":
+        for y in range(16):
+            for x in range(16):
+                img.putpixel((x, y), shade(copper, rng.uniform(0.8, 1.05)))
+        for y in range(6, 10):
+            for x in range(6, 10):
+                img.putpixel((x, y), (30, 30, 34, 255))
+    else:
+        for y in range(16):
+            for x in range(16):
+                img.putpixel((x, y), shade(copper, rng.uniform(0.6, 0.8)))
+    return img
+
+
+def vessel(rng, face):
+    img = new()
+    glass = (200, 220, 230)
+    lead = (88, 90, 110)
+    for y in range(16):
+        for x in range(16):
+            img.putpixel((x, y), shade(lead, rng.uniform(0.85, 1.1)))
+    if face == "side":
+        for y in range(3, 14):
+            for x in range(3, 13):
+                d = ((x - 7.5) / 5) ** 2 + ((y - 8.5) / 5.5) ** 2
+                if d < 1:
+                    img.putpixel((x, y), shade(glass, 0.75 + 0.35 * (1 - d)) [:3] + (210,))
+        for p in ((6, 5), (6, 6), (5, 7)):
+            img.putpixel(p, (255, 255, 255, 255))
+    else:
+        for y in range(5, 11):
+            for x in range(5, 11):
+                img.putpixel((x, y), (220, 180, 70, 255))
+    return img
+
+
+def salt_lamp(rng):
+    img = new()
+    for y in range(16):
+        for x in range(16):
+            t = abs(x - 7.5) + abs(y - 7.5)
+            img.putpixel((x, y), shade((250, 150, 110), 1.15 - t / 30 + rng.uniform(-0.06, 0.06)))
+    for _ in range(8):
+        img.putpixel((rng.randrange(16), rng.randrange(16)), (255, 220, 190, 255))
+    return img
+
+
+def pile(rng, color, sparkle=(255, 255, 255)):
+    img = new()
+    for y in range(7, 14):
+        half = (y - 6) + 1
+        for x in range(8 - half, 8 + half):
+            if 0 <= x < 16:
+                img.putpixel((x, y), shade(color, rng.uniform(0.8, 1.15)))
+    for p in ((7, 8), (9, 10), (5, 12)):
+        img.putpixel(p, sparkle + (255,))
+    return img
+
+
+def lump(rng, color):
+    img = new()
+    for y in range(4, 13):
+        for x in range(3, 13):
+            d = ((x - 7.5) / 5) ** 2 + ((y - 8) / 4.5) ** 2
+            if d < 1 - rng.uniform(0, 0.15):
+                img.putpixel((x, y), shade(color, 1.2 - d * 0.5 + rng.uniform(-0.08, 0.08)))
+    return img
+
+
+def droplet(color):
+    img = new()
+    for y in range(2, 14):
+        w = (y - 2) * 0.5 if y < 9 else 4 - (y - 9) * 0.8
+        for x in range(int(8 - w), int(8 + w) + 1):
+            if 0 <= x < 16:
+                img.putpixel((x, y), shade(color, 1.25 - (x + y) / 32))
+    img.putpixel((6, 9), (255, 255, 255, 255))
+    img.putpixel((6, 10), (255, 255, 255, 200))
+    return img
+
+
+def orb(color, glow=(255, 255, 255)):
+    img = new()
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+            if d < 6:
+                img.putpixel((x, y), shade(color, 1.3 - d / 8))
+    for p in ((5, 5), (6, 5), (5, 6)):
+        img.putpixel(p, glow + (255,))
+    return img
+
+
+def bottle(color, cork=(140, 100, 60)):
+    img = new()
+    glass = (220, 235, 245, 200)
+    for y in range(6, 15):
+        for x in range(4, 12):
+            d = ((x - 7.5) / 4) ** 2 + ((y - 10.5) / 4.5) ** 2
+            if d < 1:
+                img.putpixel((x, y), glass if y < 8 else shade(color, 1.2 - d * 0.4))
+    for y in range(3, 6):
+        for x in (7, 8):
+            img.putpixel((x, y), glass)
+    for x in (6, 7, 8, 9):
+        img.putpixel((x, 2), cork + (255,))
+    img.putpixel((6, 10), (255, 255, 255, 230))
+    return img
+
+
+def lens():
+    img = new()
+    gold = (220, 180, 70, 255)
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 6.5) ** 2 + (y - 6.5) ** 2) ** 0.5
+            if 4.2 < d < 5.6:
+                img.putpixel((x, y), gold)
+            elif d <= 4.2:
+                img.putpixel((x, y), (170, 220, 255, 150))
+    for i in range(4):
+        img.putpixel((10 + i, 10 + i), (110, 70, 40, 255))
+        img.putpixel((11 + i, 10 + i), (80, 50, 30, 255))
+    img.putpixel((5, 4), (255, 255, 255, 255))
+    return img
+
+
+def mirror():
+    img = new()
+    silver = (200, 205, 215, 255)
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 7.5) ** 2 + (y - 6.0) ** 2) ** 0.5
+            if 4.6 < d < 6:
+                img.putpixel((x, y), silver)
+            elif d <= 4.6:
+                img.putpixel((x, y), (150, 160, 190, 255) if (x + y) % 5 else (235, 240, 255, 255))
+    for y in range(12, 16):
+        img.putpixel((7, y), (110, 70, 40, 255))
+        img.putpixel((8, y), (80, 50, 30, 255))
+    return img
+
+
+def ring():
+    img = new()
+    snake = (60, 150, 80)
+    for y in range(16):
+        for x in range(16):
+            d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+            if 4 < d < 6.3:
+                img.putpixel((x, y), shade(snake, 1.25 - abs(d - 5.1) / 2))
+    for p in ((12, 5), (13, 5), (12, 4)):
+        img.putpixel(p, (200, 40, 40, 255))
+    img.putpixel((11, 4), (255, 230, 80, 255))
+    return img
+
+
+def tablet():
+    img = new()
+    green = (40, 170, 90)
+    for y in range(1, 15):
+        for x in range(3, 13):
+            img.putpixel((x, y), shade(green, 1.15 - (x + y) / 40))
+    for y in (4, 6, 8, 10, 12):
+        for x in range(5, 11):
+            if (x + y) % 3:
+                img.putpixel((x, y), (200, 255, 210, 255))
+    for x in range(3, 13):
+        img.putpixel((x, 1), (220, 180, 70, 255))
+        img.putpixel((x, 14), (220, 180, 70, 255))
+    return img
+
+
+TOOL_SHAPES = {
+    "pickaxe": ["................", "...HHHHHHHH.....", "..H........H....", ".......S........",
+                "......S.........", ".....S..........", "....S...........", "...S............",
+                "..S.............", ".S..............", "S...............", "................",
+                "................", "................", "................", "................"],
+    "axe": ["................", "......HHH.......", ".....HHHHH......", ".....HHHS.......",
+            "......HS........", ".....S..........", "....S...........", "...S............",
+            "..S.............", ".S..............", "S...............", "................",
+            "................", "................", "................", "................"],
+    "shovel": ["................", "........HHH.....", ".......HHHHH....", ".......HHHH.....",
+               "........HH......", ".......S........", "......S.........", ".....S..........",
+               "....S...........", "...S............", "..S.............", ".S..............",
+               "S...............", "................", "................", "................"],
+    "sword": ["..............HH", ".............HHH", "............HHH.", "...........HHH..",
+              "..........HHH...", ".........HHH....", "........HHH.....", "...G...HHH......",
+              "....G.HHH.......", ".....GHH........", "......SG........", ".....S..G.......",
+              "....S...........", "...S............", "..S.............", "................"],
+    "hoe": ["................", "....HHHHH.......", "...H....S.......", "........S.......",
+            ".......S........", "......S.........", ".....S..........", "....S...........",
+            "...S............", "..S.............", ".S..............", "S...............",
+            "................", "................", "................", "................"],
+}
+
+
+def tool(kind, head):
+    img = new()
+    for y, row in enumerate(TOOL_SHAPES[kind]):
+        for x, ch in enumerate(row):
+            if ch == "H":
+                img.putpixel((x, y + 2 if kind != "sword" else y), shade(head, 1.25 - (x + y) / 40))
+            elif ch == "S":
+                img.putpixel((x, y + 2 if kind != "sword" else y), (110, 70, 40, 255))
+            elif ch == "G":
+                img.putpixel((x, y), (220, 180, 70, 255))
+    return img
+
+
+def effect_icon(color, symbol):
+    img = Image.new("RGBA", (18, 18), (0, 0, 0, 0))
+    for y in range(18):
+        for x in range(18):
+            d = ((x - 8.5) ** 2 + (y - 8.5) ** 2) ** 0.5
+            if d < 8:
+                img.putpixel((x, y), shade(color, 1.2 - d / 12))
+    for x, y in symbol:
+        img.putpixel((x, y), (255, 255, 255, 255))
+    return img
+
+
+def expansion(rng):
+    ores = {"cinnabar": (200, 40, 40), "silver": (220, 225, 235), "lead": (90, 95, 130)}
+    for name, color in ores.items():
+        ore(rng, color).save(BLOCK / f"{name}_ore.png")
+        ore(rng, color, deep=True).save(BLOCK / f"deepslate_{name}_ore.png")
+    rock_salt(rng).save(BLOCK / "rock_salt.png")
+    metal_block(rng, (200, 205, 220)).save(BLOCK / "silver_block.png")
+    metal_block(rng, (85, 90, 120)).save(BLOCK / "lead_block.png")
+    for face in ("top", "side", "bottom"):
+        alembic(rng, face).save(BLOCK / f"alembic_{face}.png")
+    vessel(rng, "side").save(BLOCK / "hermetic_vessel_side.png")
+    vessel(rng, "top").save(BLOCK / "hermetic_vessel_top.png")
+    salt_lamp(rng).save(BLOCK / "salt_lamp.png")
+
+    crystal((200, 40, 40)).save(ITEM / "cinnabar.png")
+    droplet((200, 205, 215)).save(ITEM / "quicksilver.png")
+    pile(rng, (240, 236, 236)).save(ITEM / "salt.png")
+    pile(rng, (230, 210, 60), (255, 255, 180)).save(ITEM / "sulfur.png")
+    lump(rng, (210, 215, 225)).save(ITEM / "raw_silver.png")
+    lump(rng, (90, 95, 125)).save(ITEM / "raw_lead.png")
+    ingot((215, 220, 232)).save(ITEM / "silver_ingot.png")
+    ingot((95, 100, 135)).save(ITEM / "lead_ingot.png")
+    orb((70, 60, 80), (180, 160, 200)).save(ITEM / "prima_materia.png")
+    orb((30, 28, 32), (120, 120, 120)).save(ITEM / "nigredo.png")
+    orb((235, 235, 240)).save(ITEM / "albedo.png")
+    orb((240, 200, 50)).save(ITEM / "citrinitas.png")
+    orb((210, 30, 40), (255, 200, 120)).save(ITEM / "rubedo.png")
+    bottle((150, 200, 255)).save(ITEM / "aqua_vitae.png")
+    bottle((230, 40, 60), (220, 180, 70)).save(ITEM / "elixir_of_life.png")
+    bottle((90, 220, 140)).save(ITEM / "panacea.png")
+    bottle((150, 60, 220)).save(ITEM / "alkahest.png")
+    lens().save(ITEM / "alchemist_lens.png")
+    mirror().save(ITEM / "quicksilver_mirror.png")
+    ring().save(ITEM / "ouroboros_ring.png")
+    tablet().save(ITEM / "emerald_tablet.png")
+    for kind in TOOL_SHAPES:
+        tool(kind, (150, 110, 220)).save(ITEM / f"arcanium_{kind}.png")
+    effects = ROOT / "textures/mob_effect"
+    effects.mkdir(parents=True, exist_ok=True)
+    effect_icon((210, 40, 60), [(8, y) for y in range(4, 14)] + [(x, 7) for x in range(5, 12)]).save(effects / "aeternitas.png")
+    effect_icon((90, 210, 140), [(x, 8) for x in range(5, 13)] + [(8, y) for y in range(5, 13)]).save(effects / "purity.png")
+
+
 def main():
     rng = random.Random(42)
     BLOCK.mkdir(parents=True, exist_ok=True)
@@ -280,6 +615,7 @@ def main():
     altar(rng, "side").save(BLOCK / "ritual_altar_side.png")
     pedestal_top().save(BLOCK / "pedestal_top.png")
     icon(rng).save(ROOT / "icon.png")
+    expansion(random.Random(7))
 
 
 if __name__ == "__main__":

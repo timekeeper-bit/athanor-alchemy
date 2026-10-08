@@ -9,11 +9,9 @@
           "name": "athanor:alchemical_glass"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "athanor:blocks/alchemical_glass"

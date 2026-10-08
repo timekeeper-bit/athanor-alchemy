@@ -9,11 +9,9 @@
           "name": "athanor:athanor_core"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "athanor:blocks/athanor_core"

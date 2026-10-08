@@ -1,5 +1,7 @@
 package io.github.timekeeperbit.athanor.item;
 
+import io.github.timekeeperbit.athanor.registry.ModBlocks;
+import io.github.timekeeperbit.athanor.world.Aura;
 import java.util.Map;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
@@ -40,7 +42,14 @@ public class PhilosophersStoneItem extends Item {
 					Map.entry(Blocks.DEEPSLATE_IRON_ORE, Blocks.DEEPSLATE_GOLD_ORE),
 					Map.entry(Blocks.COAL_ORE, Blocks.LAPIS_ORE),
 					Map.entry(Blocks.DEEPSLATE_COAL_ORE, Blocks.DEEPSLATE_LAPIS_ORE),
-					Map.entry(Blocks.NETHERRACK, Blocks.SOUL_SAND));
+					Map.entry(Blocks.NETHERRACK, Blocks.SOUL_SAND),
+					// Lead is raised to silver, silver to gold.
+					Map.entry(ModBlocks.LEAD_ORE, ModBlocks.SILVER_ORE),
+					Map.entry(ModBlocks.DEEPSLATE_LEAD_ORE, ModBlocks.DEEPSLATE_SILVER_ORE),
+					Map.entry(ModBlocks.SILVER_ORE, Blocks.GOLD_ORE),
+					Map.entry(ModBlocks.DEEPSLATE_SILVER_ORE, Blocks.DEEPSLATE_GOLD_ORE),
+					Map.entry(ModBlocks.LEAD_BLOCK, ModBlocks.SILVER_BLOCK),
+					Map.entry(ModBlocks.SILVER_BLOCK, Blocks.GOLD_BLOCK));
 		}
 		return transmutations;
 	}
@@ -56,6 +65,7 @@ public class PhilosophersStoneItem extends Item {
 			return InteractionResult.PASS;
 		}
 		level.setBlockAndUpdate(pos, target.defaultBlockState());
+		Aura.addMiasma(level, pos, 1);
 		level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, 1.2F);
 		level.sendParticles(ParticleTypes.WITCH, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 8, 0.3, 0.2, 0.3, 0.0);
 		if (context.getPlayer() != null) {

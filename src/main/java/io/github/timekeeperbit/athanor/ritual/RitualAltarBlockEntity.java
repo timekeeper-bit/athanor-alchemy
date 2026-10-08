@@ -1,6 +1,8 @@
 package io.github.timekeeperbit.athanor.ritual;
 
 import io.github.timekeeperbit.athanor.registry.ModBlockEntities;
+import io.github.timekeeperbit.athanor.world.Aura;
+import io.github.timekeeperbit.athanor.world.Celestial;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -76,6 +78,15 @@ public class RitualAltarBlockEntity extends ItemHolderBlockEntity {
 		if (recipe == null) {
 			return Component.translatable("message.athanor.ritual.no_recipe", pedestals().size());
 		}
+		if (level instanceof ServerLevel serverLevel) {
+			if (!recipe.time().test(Celestial.isDay(serverLevel))) {
+				return Component.translatable("message.athanor.ritual.wrong_time", recipe.time().describe());
+			}
+			int available = Aura.get(serverLevel, getBlockPos()).aether();
+			if (!Aura.consume(serverLevel, getBlockPos(), recipe.aether())) {
+				return Component.translatable("message.athanor.ritual.no_aether", recipe.aether(), available);
+			}
+		}
 		active = true;
 		progress = 0;
 		total = recipe.ticks();
@@ -96,9 +107,10 @@ public class RitualAltarBlockEntity extends ItemHolderBlockEntity {
 			fail(level);
 			return;
 		}
-		progress++;
 		BlockPos pos = getBlockPos();
-		if (progress % 4 == 0) {
+		// Rituals under a full moon run at double speed.
+		progress += Celestial.isFullMoonNight(level, pos) ? 2 : 1;
+		if (level.getGameTime() % 4 == 0) {
 			for (PedestalBlockEntity pedestal : pedestals()) {
 				if (!pedestal.getStack().isEmpty()) {
 					BlockPos from = pedestal.getBlockPos();
@@ -110,7 +122,7 @@ public class RitualAltarBlockEntity extends ItemHolderBlockEntity {
 			}
 			level.sendParticles(ParticleTypes.WITCH, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 3, 0.3, 0.3, 0.3, 0.0);
 		}
-		if (progress % 40 == 0) {
+		if (level.getGameTime() % 40 == 0) {
 			level.playSound(null, pos, SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 0.8F, 0.6F + progress / (float) Math.max(1, total));
 		}
 		if (progress >= total) {
@@ -127,6 +139,7 @@ public class RitualAltarBlockEntity extends ItemHolderBlockEntity {
 		}
 		setStack(recipe.resultStack());
 		BlockPos pos = getBlockPos();
+		Aura.addMiasma(level, pos, Math.max(1, recipe.aether() / 5));
 		LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);
 		if (bolt != null) {
 			bolt.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " C ",
+    "GBG",
+    "CCC"
+  ],
+  "key": {
+    "C": "minecraft:copper_ingot",
+    "G": "minecraft:glass",
+    "B": "minecraft:glass_bottle"
+  },
+  "result": {
+    "id": "athanor:alembic",
+    "count": 1
+  }
+}

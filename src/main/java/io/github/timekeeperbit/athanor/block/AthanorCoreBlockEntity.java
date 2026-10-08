@@ -5,6 +5,7 @@ import io.github.timekeeperbit.athanor.menu.AthanorMenu;
 import io.github.timekeeperbit.athanor.recipe.AthanorRecipe;
 import io.github.timekeeperbit.athanor.recipe.AthanorRecipes;
 import io.github.timekeeperbit.athanor.registry.ModBlockEntities;
+import io.github.timekeeperbit.athanor.world.Aura;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -122,6 +123,7 @@ public class AthanorCoreBlockEntity extends BlockEntity implements WorldlyContai
 		if (progress >= recipe.ticks()) {
 			progress = 0;
 			craft(recipe);
+			Aura.addMiasma(level, pos, 1);
 			level.playSound(null, pos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 0.8F, 1.0F);
 			level.sendParticles(ParticleTypes.ENCHANT, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 20, 0.4, 0.4, 0.4, 0.5);
 		}

@@ -14,6 +14,7 @@ public class AthanorClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		MenuScreens.register(ModMenus.RESOLVER, ResolverScreen::new);
 		MenuScreens.register(ModMenus.ATHANOR, AthanorScreen::new);
+		MenuScreens.register(ModMenus.ALEMBIC, AlembicScreen::new);
 
 		ItemTooltipCallback.EVENT.register((stack, context, flag, lines) -> {
 			AspectList aspects = AspectTable.get(stack);

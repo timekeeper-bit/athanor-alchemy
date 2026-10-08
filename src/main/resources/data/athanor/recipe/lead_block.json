@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "athanor:lead_ingot"
+  },
+  "result": {
+    "id": "athanor:lead_block"
+  }
+}

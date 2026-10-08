@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "EEE",
+    "EBE",
+    "EEE"
+  ],
+  "key": {
+    "E": "minecraft:emerald",
+    "B": "minecraft:book"
+  },
+  "result": {
+    "id": "athanor:emerald_tablet",
+    "count": 1
+  }
+}

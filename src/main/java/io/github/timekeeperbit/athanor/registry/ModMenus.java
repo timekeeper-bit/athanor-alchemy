@@ -1,6 +1,7 @@
 package io.github.timekeeperbit.athanor.registry;
 
 import io.github.timekeeperbit.athanor.Athanor;
+import io.github.timekeeperbit.athanor.menu.AlembicMenu;
 import io.github.timekeeperbit.athanor.menu.AthanorMenu;
 import io.github.timekeeperbit.athanor.menu.ResolverMenu;
 import net.minecraft.core.Registry;
@@ -13,6 +14,9 @@ public final class ModMenus {
 			new MenuType<>(ResolverMenu::new, FeatureFlags.VANILLA_SET));
 	public static final MenuType<AthanorMenu> ATHANOR = Registry.register(BuiltInRegistries.MENU, Athanor.id("athanor"),
 			new MenuType<>(AthanorMenu::new, FeatureFlags.VANILLA_SET));
+
+	public static final MenuType<AlembicMenu> ALEMBIC = Registry.register(BuiltInRegistries.MENU, Athanor.id("alembic"),
+			new MenuType<>(AlembicMenu::new, FeatureFlags.VANILLA_SET));
 
 	private ModMenus() {
 	}
