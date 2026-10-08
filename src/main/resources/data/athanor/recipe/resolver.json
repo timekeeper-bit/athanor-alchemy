@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "III",
+    "ICI",
+    "SSS"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "C": "minecraft:cauldron",
+    "S": "minecraft:smooth_stone"
+  },
+  "result": {
+    "id": "athanor:resolver",
+    "count": 1
+  }
+}
