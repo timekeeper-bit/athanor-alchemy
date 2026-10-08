@@ -83,7 +83,8 @@ tasks.register('probeApi') {
 			'net.minecraft.world.entity.LivingEntity', 'net.minecraft.world.level.block.Block',
 			'net.minecraft.world.level.block.state.BlockBehaviour', 'net.minecraft.world.item.ItemStack',
 			'net.minecraft.world.level.block.DropExperienceBlock', 'net.minecraft.util.valueproviders.UniformInt',
-			'net.minecraft.world.effect.MobEffectCategory', 'net.minecraft.server.level.ServerPlayer']
+			'net.minecraft.world.item.AxeItem', 'net.minecraft.world.item.HoeItem', 'net.minecraft.world.item.ShovelItem',
+			'net.minecraft.gametest.framework.GameTestHelper', 'net.minecraft.world.level.BlockAndTintGetter', 'net.minecraft.core.RegistryAccess']
 		def proc = ([javap, '-public', '-cp', path] + classes).execute()
 		def out = new StringBuilder()
 		proc.consumeProcessOutput(out, out)

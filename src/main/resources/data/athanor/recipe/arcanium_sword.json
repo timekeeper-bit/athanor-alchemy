@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "A",
+    "A",
+    "S"
+  ],
+  "key": {
+    "A": "athanor:arcanium_ingot",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "athanor:arcanium_sword",
+    "count": 1
+  }
+}

@@ -5,10 +5,12 @@ import io.github.timekeeperbit.athanor.aspect.AspectList;
 import io.github.timekeeperbit.athanor.aspect.AspectTable;
 import io.github.timekeeperbit.athanor.menu.ResolverMenu;
 import io.github.timekeeperbit.athanor.registry.ModBlockEntities;
+import io.github.timekeeperbit.athanor.world.Aura;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
@@ -91,6 +93,10 @@ public class ResolverBlockEntity extends BlockEntity implements WorldlyContainer
 				}
 			}
 			input.shrink(1);
+			if (level instanceof ServerLevel serverLevel) {
+				// Tearing matter apart leaves miasma behind.
+				Aura.addMiasma(serverLevel, getBlockPos(), 1);
+			}
 		}
 		setChanged();
 	}

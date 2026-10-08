@@ -1,5 +1,7 @@
 package io.github.timekeeperbit.athanor.aspect;
 
+import io.github.timekeeperbit.athanor.registry.ModBlocks;
+import io.github.timekeeperbit.athanor.registry.ModItems;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
@@ -104,6 +106,23 @@ public final class AspectTable {
 		item(Items.GOLD_ORE, "M4 O2 T2");
 		item(Items.DEEPSLATE_GOLD_ORE, "M4 O2 T3");
 		item(Items.NETHERITE_SCRAP, "M8 I4 P4");
+		// Magnum Opus materials
+		item(ModItems.CINNABAR, "M1 I1 P1");
+		item(ModItems.QUICKSILVER, "M1 A1");
+		item(ModItems.SALT, "T1 O1");
+		item(ModItems.SULFUR, "I1 P1");
+		item(ModItems.RAW_SILVER, "M3 O1 P1");
+		item(ModItems.SILVER_INGOT, "M3 O1");
+		item(ModItems.RAW_LEAD, "M3 T1 P1");
+		item(ModItems.LEAD_INGOT, "M3 T1");
+		item(ModBlocks.CINNABAR_ORE.asItem(), "M1 I1 P1 T2");
+		item(ModBlocks.DEEPSLATE_CINNABAR_ORE.asItem(), "M1 I1 P1 T3");
+		item(ModBlocks.SILVER_ORE.asItem(), "M3 O1 T2");
+		item(ModBlocks.DEEPSLATE_SILVER_ORE.asItem(), "M3 O1 T3");
+		item(ModBlocks.LEAD_ORE.asItem(), "M3 T3");
+		item(ModBlocks.DEEPSLATE_LEAD_ORE.asItem(), "M3 T4");
+		item(ModBlocks.ROCK_SALT.asItem(), "T2 O1");
+		item(ModItems.AQUA_VITAE, "A2 V1");
 
 		tag(ItemTags.LOGS, "V2 T1");
 		tag(ItemTags.PLANKS, "V1");

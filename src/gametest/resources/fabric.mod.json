@@ -6,7 +6,8 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-gametest": [
-			"io.github.timekeeperbit.athanor.test.AthanorGameTests"
+			"io.github.timekeeperbit.athanor.test.AthanorGameTests",
+			"io.github.timekeeperbit.athanor.test.OpusGameTests"
 		]
 	},
 	"depends": {

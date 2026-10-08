@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "athanor:salt",
+    "athanor:sulfur",
+    "athanor:quicksilver",
+    "athanor:perditio_crystal"
+  ],
+  "result": {
+    "id": "athanor:prima_materia",
+    "count": 1
+  }
+}

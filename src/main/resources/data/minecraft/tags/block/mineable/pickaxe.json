@@ -5,6 +5,18 @@
     "athanor:resolver",
     "athanor:athanor_core",
     "athanor:ritual_altar",
-    "athanor:arcane_pedestal"
+    "athanor:arcane_pedestal",
+    "athanor:cinnabar_ore",
+    "athanor:deepslate_cinnabar_ore",
+    "athanor:silver_ore",
+    "athanor:deepslate_silver_ore",
+    "athanor:lead_ore",
+    "athanor:deepslate_lead_ore",
+    "athanor:rock_salt",
+    "athanor:silver_block",
+    "athanor:lead_block",
+    "athanor:salt_lamp",
+    "athanor:alembic",
+    "athanor:hermetic_vessel"
   ]
 }

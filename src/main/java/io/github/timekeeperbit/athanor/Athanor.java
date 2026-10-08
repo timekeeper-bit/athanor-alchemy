@@ -1,10 +1,14 @@
 package io.github.timekeeperbit.athanor;
 
+import io.github.timekeeperbit.athanor.registry.ModAttachments;
 import io.github.timekeeperbit.athanor.registry.ModBlockEntities;
 import io.github.timekeeperbit.athanor.registry.ModBlocks;
 import io.github.timekeeperbit.athanor.registry.ModCreativeTab;
+import io.github.timekeeperbit.athanor.registry.ModEffects;
 import io.github.timekeeperbit.athanor.registry.ModItems;
 import io.github.timekeeperbit.athanor.registry.ModMenus;
+import io.github.timekeeperbit.athanor.world.WorldGen;
+import io.github.timekeeperbit.athanor.world.WorldRules;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -16,11 +20,15 @@ public class Athanor implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModAttachments.init();
+		ModEffects.init();
 		ModBlocks.init();
 		ModItems.init();
 		ModBlockEntities.init();
 		ModMenus.init();
 		ModCreativeTab.init();
+		WorldGen.init();
+		WorldRules.init();
 		LOGGER.info("Athanor Alchemy initialized");
 	}
 

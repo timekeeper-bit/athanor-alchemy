@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "athanor:sulfur",
+    "athanor:salt",
+    "minecraft:charcoal"
+  ],
+  "result": {
+    "id": "minecraft:gunpowder",
+    "count": 2
+  }
+}

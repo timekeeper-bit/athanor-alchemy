@@ -53,4 +53,18 @@ final class Panels {
 			}
 		}
 	}
+
+	/** A small flame, 12x14, lit or grey. */
+	static void flame(GuiGraphicsExtractor g, int x, int y, boolean lit) {
+		int outer = lit ? 0xFFE85020 : 0xFF707070;
+		int inner = lit ? 0xFFFFD040 : 0xFF9A9A9A;
+		int[] widths = {2, 4, 6, 6, 8, 10, 10, 12, 12, 12, 12, 10, 8, 6};
+		for (int row = 0; row < widths.length; row++) {
+			int w = widths[row];
+			g.fill(x + (12 - w) / 2, y + row, x + (12 + w) / 2, y + row + 1, outer);
+			if (row > 5 && w > 4) {
+				g.fill(x + (12 - w) / 2 + 2, y + row, x + (12 + w) / 2 - 2, y + row + 1, inner);
+			}
+		}
+	}
 }

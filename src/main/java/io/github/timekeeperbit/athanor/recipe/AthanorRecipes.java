@@ -40,6 +40,13 @@ public final class AthanorRecipes {
 			add(list, Items.BLAZE_POWDER, "I4 O2", Items.BLAZE_ROD, 1, 120);
 			add(list, Items.PAPER, "O4 E2", Items.NAME_TAG, 1, 120);
 			add(list, Items.CHARCOAL, "T1 P1", Items.COAL, 1, 40);
+			// Metals and principles
+			add(list, ModItems.LEAD_INGOT, "M4 O4 I2", Items.GOLD_INGOT, 1, 200);
+			add(list, ModItems.SILVER_INGOT, "M4 O2", ModItems.SILVER_INGOT, 2, 120);
+			add(list, ModItems.QUICKSILVER, "M2 A1", ModItems.QUICKSILVER, 2, 80);
+			add(list, ModItems.SALT, "T2 O2", ModItems.SALT, 2, 60);
+			add(list, ModItems.SULFUR, "I3 P3 E3", Items.GUNPOWDER, 2, 80);
+			add(list, ModItems.CINNABAR, "I3 O3", Items.REDSTONE, 4, 80);
 			recipes = Collections.unmodifiableList(list);
 		}
 		return recipes;

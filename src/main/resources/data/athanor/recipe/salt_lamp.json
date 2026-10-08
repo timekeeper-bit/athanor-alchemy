@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SSS",
+    "STS",
+    "SSS"
+  ],
+  "key": {
+    "S": "athanor:salt",
+    "T": "minecraft:torch"
+  },
+  "result": {
+    "id": "athanor:salt_lamp",
+    "count": 1
+  }
+}

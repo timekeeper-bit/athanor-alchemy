@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " G ",
+    "GPG",
+    "S  "
+  ],
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "P": "minecraft:glass_pane",
+    "S": "athanor:silver_ingot"
+  },
+  "result": {
+    "id": "athanor:alchemist_lens",
+    "count": 1
+  }
+}
