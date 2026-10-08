@@ -3,6 +3,8 @@
     "athanor:athanor_bricks",
     "athanor:alchemical_glass",
     "athanor:resolver",
-    "athanor:athanor_core"
+    "athanor:athanor_core",
+    "athanor:ritual_altar",
+    "athanor:arcane_pedestal"
   ]
 }

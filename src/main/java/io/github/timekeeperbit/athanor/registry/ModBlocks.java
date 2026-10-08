@@ -3,6 +3,8 @@ package io.github.timekeeperbit.athanor.registry;
 import io.github.timekeeperbit.athanor.Athanor;
 import io.github.timekeeperbit.athanor.block.AthanorCoreBlock;
 import io.github.timekeeperbit.athanor.block.ResolverBlock;
+import io.github.timekeeperbit.athanor.ritual.PedestalBlock;
+import io.github.timekeeperbit.athanor.ritual.RitualAltarBlock;
 import java.util.function.Function;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +30,11 @@ public final class ModBlocks {
 	public static final Block ATHANOR_CORE = register("athanor_core", AthanorCoreBlock::new,
 			BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(3.5F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS).requiresCorrectToolForDrops()
 					.lightLevel(state -> state.getValue(AthanorCoreBlock.FORMED) ? 13 : 0));
+	public static final Block RITUAL_ALTAR = register("ritual_altar", RitualAltarBlock::new,
+			BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(3.5F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS).requiresCorrectToolForDrops()
+					.lightLevel(state -> 7));
+	public static final Block PEDESTAL = register("arcane_pedestal", PedestalBlock::new,
+			BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(2.0F, 6.0F).sound(SoundType.DEEPSLATE_BRICKS).requiresCorrectToolForDrops().noOcclusion());
 
 	private ModBlocks() {
 	}

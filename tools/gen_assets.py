@@ -8,6 +8,11 @@ A = RES / "assets/athanor"
 D = RES / "data/athanor"
 NS = "athanor"
 ASPECTS = ["terra", "aqua", "ignis", "aer", "ordo", "perditio", "vita", "metallum"]
+# compound aspect -> its two basic aspects
+COMPOUNDS = {"lux": ("ignis", "aer"), "potentia": ("ignis", "ordo"), "motus": ("aer", "ordo"),
+             "praecantatio": ("ordo", "perditio"), "anima": ("vita", "aer"), "instrumentum": ("metallum", "ordo")}
+FLAT_ITEMS = ["arcanium_ingot", "philosophers_stone", "growth_dust", "charm_swiftness", "charm_vitality",
+              "charm_night_vision", "charm_tides", "charm_embers"]
 
 
 def write(path, obj):
@@ -19,8 +24,8 @@ def block_item(name, model=None):
     write(A / f"items/{name}.json", {"model": {"type": "minecraft:model", "model": model or f"{NS}:block/{name}"}})
 
 
-def flat_item(name):
-    write(A / f"models/item/{name}.json", {"parent": "minecraft:item/generated", "textures": {"layer0": f"{NS}:item/{name}"}})
+def flat_item(name, parent="minecraft:item/generated"):
+    write(A / f"models/item/{name}.json", {"parent": parent, "textures": {"layer0": f"{NS}:item/{name}"}})
     write(A / f"items/{name}.json", {"model": {"type": "minecraft:model", "model": f"{NS}:item/{name}"}})
 
 
@@ -69,11 +74,34 @@ def main():
         flat_item(f"{a}_crystal")
     flat_item("ore_magnet")
     flat_item("item_magnet")
+    for c in COMPOUNDS:
+        flat_item(f"{c}_crystal")
+    for name in FLAT_ITEMS:
+        flat_item(name)
+    flat_item("alchemist_wand", "minecraft:item/handheld")
+
+    # Ritual altar and pedestal
+    write(A / "blockstates/ritual_altar.json", {"variants": {"": {"model": f"{NS}:block/ritual_altar"}}})
+    write(A / "models/block/ritual_altar.json", {"parent": "minecraft:block/cube_bottom_top", "textures": {
+        "top": f"{NS}:block/ritual_altar_top", "side": f"{NS}:block/ritual_altar_side", "bottom": f"{NS}:block/athanor_bricks"}})
+    block_item("ritual_altar")
+    self_drop("ritual_altar")
+
+    def box(f, t):
+        faces = {d: {"texture": "#top" if d in ("up", "down") else "#side"} for d in ("north", "south", "east", "west", "up", "down")}
+        return {"from": f, "to": t, "faces": faces}
+    write(A / "blockstates/arcane_pedestal.json", {"variants": {"": {"model": f"{NS}:block/arcane_pedestal"}}})
+    write(A / "models/block/arcane_pedestal.json", {
+        "parent": "minecraft:block/block",
+        "textures": {"particle": f"{NS}:block/athanor_bricks", "side": f"{NS}:block/athanor_bricks", "top": f"{NS}:block/pedestal_top"},
+        "elements": [box([2, 0, 2], [14, 3, 14]), box([4, 3, 4], [12, 11, 12]), box([2, 11, 2], [14, 14, 14])]})
+    block_item("arcane_pedestal")
+    self_drop("arcane_pedestal")
 
     # Tags
-    blocks = [f"{NS}:{n}" for n in ("athanor_bricks", "alchemical_glass", "resolver", "athanor_core")]
+    blocks = [f"{NS}:{n}" for n in ("athanor_bricks", "alchemical_glass", "resolver", "athanor_core", "ritual_altar", "arcane_pedestal")]
     write(RES / "data/minecraft/tags/block/mineable/pickaxe.json", {"values": blocks})
-    write(D / "tags/item/aspect_crystals.json", {"values": [f"{NS}:{a}_crystal" for a in ASPECTS]})
+    write(D / "tags/item/aspect_crystals.json", {"values": [f"{NS}:{a}_crystal" for a in ASPECTS + list(COMPOUNDS)]})
 
     # Crafting recipes
     def shaped(name, pattern, key, result, count=1):
@@ -84,6 +112,15 @@ def main():
     shaped("alchemical_glass", [" G ", "GRG", " G "], {"G": "minecraft:glass", "R": "minecraft:redstone"}, "alchemical_glass", 4)
     shaped("resolver", ["III", "ICI", "SSS"], {"I": "minecraft:iron_ingot", "C": "minecraft:cauldron", "S": "minecraft:smooth_stone"}, "resolver")
     shaped("athanor_core", ["BGB", "BFB", "BBB"], {"B": f"{NS}:athanor_bricks", "G": "minecraft:gold_ingot", "F": "minecraft:blast_furnace"}, "athanor_core")
+
+    shaped("alchemist_wand", ["  A", " G ", "S  "], {"A": "minecraft:amethyst_shard", "G": "minecraft:gold_ingot", "S": "minecraft:stick"}, "alchemist_wand")
+    shaped("arcane_pedestal", [" G ", " B ", "BBB"], {"G": "minecraft:gold_ingot", "B": f"{NS}:athanor_bricks"}, "arcane_pedestal", 2)
+    shaped("ritual_altar", ["AGA", "BDB", "BBB"], {"A": "minecraft:amethyst_shard", "G": "minecraft:gold_ingot",
+                                                   "D": "minecraft:diamond", "B": f"{NS}:athanor_bricks"}, "ritual_altar")
+    for c, (a, b) in COMPOUNDS.items():
+        write(D / f"recipe/{c}_crystal.json", {"type": "minecraft:crafting_shapeless", "category": "misc",
+                                                "ingredients": [f"{NS}:{a}_crystal", f"{NS}:{b}_crystal"],
+                                                "result": {"id": f"{NS}:{c}_crystal", "count": 1}})
 
 
 if __name__ == "__main__":

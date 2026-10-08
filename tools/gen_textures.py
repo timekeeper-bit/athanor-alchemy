@@ -136,6 +136,119 @@ def magnet(main, tip):
     return img
 
 
+COMPOUNDS = {
+    "lux": (255, 242, 122), "potentia": (240, 160, 64), "motus": (176, 224, 240),
+    "praecantatio": (176, 80, 240), "anima": (224, 160, 224), "instrumentum": (96, 128, 192),
+}
+CHARMS = {
+    "charm_swiftness": (120, 200, 255), "charm_vitality": (240, 80, 110), "charm_night_vision": (60, 60, 200),
+    "charm_tides": (40, 170, 170), "charm_embers": (250, 120, 30),
+}
+
+
+def compound_crystal(color):
+    img = crystal(color)
+    # A gold ring marks compound aspects.
+    for p in ((2, 7), (3, 6), (12, 7), (11, 8), (7, 13), (8, 12)):
+        img.putpixel(p, (230, 190, 80, 255))
+    return img
+
+
+def ingot(color):
+    img = new()
+    for y in range(6, 12):
+        for x in range(2 + (11 - y) // 2, 14 - (y - 6) // 3):
+            img.putpixel((x, y), shade(color, 1.2 - (y - 6) * 0.08))
+    for x in range(5, 12):
+        img.putpixel((x, 6), (255, 255, 255, 220))
+    return img
+
+
+def gem(color):
+    img = new()
+    for y in range(3, 13):
+        w = 5 - abs(y - 7) // 1 if y <= 7 else 5 - (y - 7)
+        for x in range(8 - max(w, 0), 8 + max(w, 0)):
+            img.putpixel((x, y), shade(color, 1.25 - (x + y) / 30))
+    for p in ((6, 5), (7, 4), (6, 6)):
+        img.putpixel(p, (255, 230, 230, 255))
+    return img
+
+
+def dust(rng, color):
+    img = new()
+    for _ in range(26):
+        x, y = rng.randrange(3, 13), rng.randrange(5, 14)
+        img.putpixel((x, y), shade(color, rng.uniform(0.8, 1.3)))
+    for p in ((5, 3), (10, 4), (12, 9)):
+        img.putpixel(p, (255, 255, 200, 255))
+    return img
+
+
+def charm(color):
+    img = new()
+    gold = (220, 180, 70)
+    for i in range(3, 13):
+        img.putpixel((i, 2), gold + (255,))
+    for y in range(2, 6):
+        img.putpixel((3, y), gold + (255,))
+        img.putpixel((12, y), gold + (255,))
+    for y in range(6, 14):
+        for x in range(4, 12):
+            d = (x - 7.5) ** 2 + (y - 9.5) ** 2
+            if d < 14:
+                img.putpixel((x, y), gold + (255,))
+            if d < 8:
+                img.putpixel((x, y), shade(color, 1.2 - d / 16))
+    img.putpixel((6, 8), (255, 255, 255, 255))
+    return img
+
+
+def wand():
+    img = new()
+    for i in range(12):
+        img.putpixel((2 + i, 13 - i), (110, 70, 40, 255))
+        if i < 11:
+            img.putpixel((3 + i, 13 - i), (80, 50, 30, 255))
+    for p in ((8, 7), (9, 6), (7, 8)):
+        img.putpixel(p, (220, 180, 70, 255))
+    for p in ((13, 1), (14, 1), (13, 2), (14, 2), (12, 2), (13, 0), (15, 2), (13, 3)):
+        img.putpixel(p, (190, 120, 255, 255))
+    return img
+
+
+def altar(rng, face):
+    img = bricks(rng)
+    if face == "top":
+        for y in range(16):
+            for x in range(16):
+                d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5
+                if 5.5 < d < 7.0:
+                    img.putpixel((x, y), (220, 180, 70, 255))
+                elif d < 2.5:
+                    img.putpixel((x, y), (190, 120, 255, 255))
+        for p in ((7, 3), (8, 12), (3, 8), (12, 7)):
+            img.putpixel(p, (220, 180, 70, 255))
+    else:
+        for x in range(16):
+            img.putpixel((x, 1), (220, 180, 70, 255))
+            img.putpixel((x, 14), (220, 180, 70, 255))
+        for p in ((7, 6), (8, 7), (7, 8), (8, 9), (7, 10)):
+            img.putpixel(p, (190, 120, 255, 255))
+    return img
+
+
+def pedestal_top():
+    img = new(fill=(74, 58, 92, 255))
+    for i in range(16):
+        for p in ((i, 0), (i, 15), (0, i), (15, i)):
+            img.putpixel(p, (176, 140, 64, 255))
+    for y in range(5, 11):
+        for x in range(5, 11):
+            img.putpixel((x, y), (120, 80, 170, 255))
+    return img
+
+
 def icon(rng):
     small = core_front(rng, True)
     return small.resize((128, 128), Image.NEAREST)
@@ -155,6 +268,17 @@ def main():
         crystal(color).save(ITEM / f"{name}_crystal.png")
     magnet((190, 40, 40), (210, 210, 220)).save(ITEM / "ore_magnet.png")
     magnet((60, 90, 200), (230, 200, 90)).save(ITEM / "item_magnet.png")
+    for name, color in COMPOUNDS.items():
+        compound_crystal(color).save(ITEM / f"{name}_crystal.png")
+    for name, color in CHARMS.items():
+        charm(color).save(ITEM / f"{name}.png")
+    ingot((150, 110, 220)).save(ITEM / "arcanium_ingot.png")
+    gem((200, 30, 50)).save(ITEM / "philosophers_stone.png")
+    dust(rng, (90, 220, 90)).save(ITEM / "growth_dust.png")
+    wand().save(ITEM / "alchemist_wand.png")
+    altar(rng, "top").save(BLOCK / "ritual_altar_top.png")
+    altar(rng, "side").save(BLOCK / "ritual_altar_side.png")
+    pedestal_top().save(BLOCK / "pedestal_top.png")
     icon(rng).save(ROOT / "icon.png")
 
 

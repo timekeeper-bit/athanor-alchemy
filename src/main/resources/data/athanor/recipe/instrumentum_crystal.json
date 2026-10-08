@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "athanor:metallum_crystal",
+    "athanor:ordo_crystal"
+  ],
+  "result": {
+    "id": "athanor:instrumentum_crystal",
+    "count": 1
+  }
+}

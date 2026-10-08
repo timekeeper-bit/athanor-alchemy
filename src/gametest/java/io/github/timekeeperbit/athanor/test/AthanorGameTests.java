@@ -26,6 +26,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
+import io.github.timekeeperbit.athanor.aspect.CompoundAspect;
+import io.github.timekeeperbit.athanor.item.PhilosophersStoneItem;
+import io.github.timekeeperbit.athanor.ritual.PedestalBlockEntity;
+import io.github.timekeeperbit.athanor.ritual.RitualAltarBlockEntity;
+import io.github.timekeeperbit.athanor.ritual.RitualRecipe;
+import io.github.timekeeperbit.athanor.ritual.RitualRecipes;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AthanorGameTests {
 	private static final BlockPos CORE = new BlockPos(3, 2, 1);
@@ -151,16 +159,88 @@ public class AthanorGameTests {
 	@GameTest
 	public void itemMagnetPullsDrops(GameTestHelper helper) {
 		Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+		BlockPos at = helper.absolutePos(new BlockPos(2, 1, 2));
+		player.setPos(at.getX() + 0.5, at.getY(), at.getZ() + 0.5);
 		ItemStack magnet = new ItemStack(ModItems.ITEM_MAGNET);
 		helper.assertFalse(ItemMagnetItem.isOn(magnet), "magnet starts off");
 		ItemMagnetItem.setOn(magnet, true);
 		helper.assertTrue(ItemMagnetItem.isOn(magnet), "magnet switched on");
-		ItemEntity item = new ItemEntity(helper.getLevel(), player.getX() + 4, player.getY(), player.getZ(), new ItemStack(Items.APPLE));
+		ItemEntity item = new ItemEntity(helper.getLevel(), player.getX() + 4, player.getY(), player.getZ(), new ItemStack(Items.APPLE), 0, 0, 0);
 		item.setNoPickUpDelay();
 		helper.getLevel().addFreshEntity(item);
 		int moved = ItemMagnetItem.pull(helper.getLevel(), player);
 		helper.assertTrue(moved >= 1, "at least one entity moved");
 		helper.assertTrue(item.distanceToSqr(player) < 1.0, "item is at the player");
+		helper.succeed();
+	}
+
+	private static final BlockPos ALTAR = new BlockPos(4, 1, 4);
+
+	/** Places the altar and one pedestal per item, in ring order, and returns the altar. */
+	private static RitualAltarBlockEntity buildRitual(GameTestHelper helper, Item center, List<Item> items) {
+		helper.setBlock(ALTAR, ModBlocks.RITUAL_ALTAR);
+		RitualAltarBlockEntity altar = helper.getBlockEntity(ALTAR, RitualAltarBlockEntity.class);
+		altar.setStack(new ItemStack(center));
+		for (int i = 0; i < items.size(); i++) {
+			int[] offset = RitualAltarBlockEntity.RING[i];
+			BlockPos pos = ALTAR.offset(offset[0], 0, offset[1]);
+			helper.setBlock(pos, ModBlocks.PEDESTAL);
+			helper.getBlockEntity(pos, PedestalBlockEntity.class).setStack(new ItemStack(items.get(i)));
+		}
+		return altar;
+	}
+
+	@GameTest(maxTicks = 200)
+	public void ritualMakesArcanium(GameTestHelper helper) {
+		RitualRecipe recipe = RitualRecipes.all().get(0);
+		RitualAltarBlockEntity altar = buildRitual(helper, recipe.center(), recipe.pedestals());
+		helper.assertTrue(altar.pedestals().size() == recipe.pedestals().size(), "all pedestals found");
+		altar.tryStart();
+		helper.assertTrue(altar.isActive(), "ritual should start");
+		helper.succeedWhen(() -> {
+			helper.assertTrue(altar.getStack().is(ModItems.ARCANIUM_INGOT), "altar holds arcanium");
+			helper.assertValueEqual(altar.getStack().getCount(), 2, "arcanium count");
+			for (PedestalBlockEntity pedestal : altar.pedestals()) {
+				helper.assertTrue(pedestal.getStack().isEmpty(), "pedestal items consumed");
+			}
+		});
+	}
+
+	@GameTest(maxTicks = 200)
+	public void ritualFailsWhenItemRemoved(GameTestHelper helper) {
+		RitualRecipe recipe = RitualRecipes.all().get(0);
+		RitualAltarBlockEntity altar = buildRitual(helper, recipe.center(), recipe.pedestals());
+		altar.tryStart();
+		helper.runAfterDelay(10, () -> altar.pedestals().get(0).takeStack());
+		helper.runAfterDelay(150, () -> {
+			helper.assertFalse(altar.isActive(), "ritual should stop");
+			helper.assertTrue(altar.getStack().is(recipe.center()), "centre item kept");
+			helper.succeed();
+		});
+	}
+
+	@GameTest
+	public void ritualNeedsExactIngredients(GameTestHelper helper) {
+		RitualRecipe recipe = RitualRecipes.all().get(0);
+		List<Item> extra = new ArrayList<>(recipe.pedestals());
+		extra.add(Items.DIRT);
+		RitualAltarBlockEntity altar = buildRitual(helper, recipe.center(), extra);
+		altar.tryStart();
+		helper.assertFalse(altar.isActive(), "an extra item must block the ritual");
+		helper.succeed();
+	}
+
+	@GameTest
+	public void compoundCrystalsAreRegistered(GameTestHelper helper) {
+		for (CompoundAspect aspect : CompoundAspect.values()) {
+			helper.assertTrue(aspect.crystal() != null && aspect.first() != aspect.second(), "compound " + aspect.getName());
+		}
+		helper.succeed();
+	}
+
+	@GameTest
+	public void philosophersStoneTransmutesOre(GameTestHelper helper) {
+		helper.assertTrue(PhilosophersStoneItem.transmutations().get(Blocks.IRON_ORE) == Blocks.GOLD_ORE, "iron ore becomes gold ore");
 		helper.succeed();
 	}
 }

@@ -7,6 +7,12 @@
     "athanor:ordo_crystal",
     "athanor:perditio_crystal",
     "athanor:vita_crystal",
-    "athanor:metallum_crystal"
+    "athanor:metallum_crystal",
+    "athanor:lux_crystal",
+    "athanor:potentia_crystal",
+    "athanor:motus_crystal",
+    "athanor:praecantatio_crystal",
+    "athanor:anima_crystal",
+    "athanor:instrumentum_crystal"
   ]
 }

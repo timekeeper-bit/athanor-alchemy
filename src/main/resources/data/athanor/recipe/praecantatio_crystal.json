@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "athanor:ordo_crystal",
+    "athanor:perditio_crystal"
+  ],
+  "result": {
+    "id": "athanor:praecantatio_crystal",
+    "count": 1
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "athanor:block/athanor_bricks",
+    "side": "athanor:block/athanor_bricks",
+    "top": "athanor:block/pedestal_top"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        3,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#top"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        3,
+        4
+      ],
+      "to": [
+        12,
+        11,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#top"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        11,
+        2
+      ],
+      "to": [
+        14,
+        14,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#top"
+        }
+      }
+    }
+  ]
+}

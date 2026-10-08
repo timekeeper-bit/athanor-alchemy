@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "athanor:aer_crystal",
+    "athanor:ordo_crystal"
+  ],
+  "result": {
+    "id": "athanor:motus_crystal",
+    "count": 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "athanor:ignis_crystal",
+    "athanor:aer_crystal"
+  ],
+  "result": {
+    "id": "athanor:lux_crystal",
+    "count": 1
+  }
+}
